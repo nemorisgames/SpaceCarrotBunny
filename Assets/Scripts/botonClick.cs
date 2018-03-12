@@ -20,7 +20,7 @@ public class botonClick : MonoBehaviour {
 	// Update is called once per frame
 	void FixedUpdate () {
 		if (presionado) {
-			transform.localScale *= 1.01f;
+			transform.localScale *= 1.03f;
 			sp.color = new Color(sp.color.r, sp.color.g, sp.color.b, sp.color.a - 0.012f);
 			if(sp.color.a <= 0f) Destroy (gameObject);
 		}

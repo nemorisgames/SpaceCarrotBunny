@@ -1,12 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
-using Heyzap;
 
 public class Central : MonoBehaviour {
 	Zanahoria zanahoria;
 	public GameObject planetaPrefab;
 	public Planeta[] planetas;
-	public static Rect AreaSpawnPlanetas = new Rect(50f, -20f, 30f, 40f);
+	public static Rect AreaSpawnPlanetas = new Rect(16f, -15f, 26f, 30f);
 	int nPlanetas = 0;
 	Planeta planetaAuxiliar;
 
@@ -25,11 +24,10 @@ public class Central : MonoBehaviour {
 	public enum EstadoJuego{Titulo, EnJuego, Pausa, Terminado};
 	public EstadoJuego estado = EstadoJuego.Titulo;
 
-	GameCenterNemoris gameCenterNemoris;
+	//GameCenterNemoris gameCenterNemoris;
 
 	public GameObject botonRevive;
 	public GameObject botonReviveComprado;
-	public GameObject botonComprar;
 
 	public GameObject botonPlay;
 
@@ -59,87 +57,45 @@ public class Central : MonoBehaviour {
 	public GameObject recordsFinal;
 	bool revivido = false;
 
-	public GameObject botonRestore;
 	public GameObject camaraLogo;
 	public TweenAlpha transicion;
 
 	public GameObject marcaBarra;
 
-	public UILabel mensajeCompra;
-
-	IAPNemoris store;
-	addbuddizNemoris ads;
-	HeyDayNemoris adsH;
+	//IAPNemoris store;
 
 	//GPGSNemoris gpgsNemoris;
 	// Use this for initialization
 	void Start () {
-		GameObject ga = GameObject.Find ("AppBudizz");
-		GameObject gh = GameObject.Find ("HeyDayNemoris");
-		if (ga != null) 
-			ads = ga.GetComponent<addbuddizNemoris> ();
-		if (gh != null)
-			adsH = gh.GetComponent<HeyDayNemoris> ();
-		GameObject s = GameObject.Find ("IAPNemoris");
+		/*GameObject s = GameObject.Find ("IAPNemoris");
 		if (s != null)
-			store = s.GetComponent<IAPNemoris> ();
+			store = s.GetComponent<IAPNemoris> ();*/
 		Time.timeScale = 1f;
-		GameObject g = GameObject.Find ("GameCenterNemoris");
+		botonRevive.SetActive(PlayerPrefs.GetInt ("activateAdsAdBuddiz", 1) == 1);
+		botonReviveComprado.SetActive(PlayerPrefs.GetInt ("activateAdsAdBuddiz", 1) == 0);
+		/*GameObject g = GameObject.Find ("GameCenterNemoris");
 		if (g != null) {
 			gameCenterNemoris = g.GetComponent<GameCenterNemoris>();
 		}
-		botonRestore.SetActive(PlayerPrefs.GetInt ("activateAdsAdBuddiz", 1) == 1);
+		
 		GameObject g2 = GameObject.Find ("GPGSNemoris");
 		if (g2 != null) {
 		//	gpgsNemoris = g2.GetComponent<GPGSNemoris>();
-		}
+		}*/
 		nPlanetas = planetas.Length;
 		zanahoria = GameObject.FindWithTag ("Player").GetComponent<Zanahoria> ();
 
-		if (PlayerPrefs.GetInt ("primeraEjecucion", 0) >= 1) {
-			zanahoria.conejoNormal.color = new Color(1f, 1f, 1f, 1f);
-			zanahoria.conejoHD.color = new Color(0f, 0f, 0f, 0f);
+		if (PlayerPrefs.GetInt ("primeraEjecucion", 0) == 1) {
 			botonPlay.SetActive (false);
 			comenzarJuego ();
 		} else {
 			audioPrincipal.PlayOneShot(inicioMusica);
-			
-			zanahoria.conejoNormal.color = new Color(0f, 0f, 0f, 0f);
-			zanahoria.conejoHD.color = new Color(1f, 1f, 1f, 1f);
 		}
 	}
 
-	public void restoreTransactions(){
-		#if UNITY_IPHONE || UNITY_ANDROID
-		//if (store.compraTerminada)
-		//	store.restoreTransactions ();
-#endif
-	}
-
 	public void comprar(){
-		print ("comprar");
-		#if UNITY_IPHONE || UNITY_ANDROID
 		//if (store.compraTerminada)
 		//	store.comprar (0);
-#endif
-	}
-
-	public void compraExitosa(){
-		botonRevive.SetActive(PlayerPrefs.GetInt ("activateAdsAdBuddiz", 1) == 1);
-		botonReviveComprado.SetActive(PlayerPrefs.GetInt ("activateAdsAdBuddiz", 1) == 0);
-		botonComprar.SetActive(PlayerPrefs.GetInt ("activateAdsAdBuddiz", 1) == 1);
-		botonRestore.SetActive(false);
-		TweenAlpha ta = mensajeCompra.gameObject.GetComponent<TweenAlpha> ();
-		ta.ResetToBeginning ();
-		ta.PlayForward ();
-		mensajeCompra.text = "Thank you for your purchase!";
-	}
-
-	public void compraFallida(){
-		TweenAlpha ta = mensajeCompra.gameObject.GetComponent<TweenAlpha> ();
-		ta.ResetToBeginning ();
-		ta.PlayForward ();
-		mensajeCompra.text = "Transaction failed";
 	}
 
 	public void mostrarNuevoScore(string texto){
@@ -160,31 +116,28 @@ public class Central : MonoBehaviour {
 	}
 
 	public void comenzarJuego(){
-		print (PlayerPrefs.GetInt ("activateAdsAdBuddiz", 1));
-		botonRevive.SetActive(PlayerPrefs.GetInt ("activateAdsAdBuddiz", 1) == 1);
-		botonReviveComprado.SetActive(PlayerPrefs.GetInt ("activateAdsAdBuddiz", 1) == 0);
-		botonComprar.SetActive(PlayerPrefs.GetInt ("activateAdsAdBuddiz", 1) == 1);
-		botonRestore.SetActive(false);
-		zanahoria.conejoNormal.color = new Color(1f, 1f, 1f, 1f);
-		zanahoria.conejoHD.color = new Color(0f, 0f, 0f, 0f);
 		estado = EstadoJuego.EnJuego;
+		//zanahoria.GetComponent<Rigidbody2D> ().isKinematic = false;
 		zanahoria.activar ();
 		marcaBarra.SetActive(true);
+		//tituloUI.PlayReverse();
 		foreach(TweenPosition t in juegoUI)
 			t.PlayForward();
+		//print (PlayerPrefs.GetInt ("primeraEjecucion", 0)+"||"+ PlayerPrefs.GetInt ("maximoPlanetas", 0));
 		if (PlayerPrefs.GetInt ("primeraEjecucion", 0) == 0 || PlayerPrefs.GetInt ("maximoPlanetas", 0) <= 1) {
 			//transicion.delay = 0.3f;
+			instrucciones.SetActive (true);
 		} else{
 			camaraLogo.SetActive (false);
 		}
-		PlayerPrefs.SetInt ("primeraEjecucion", PlayerPrefs.GetInt ("primeraEjecucion", 0) + 1);
-		//revivido = true;
+		PlayerPrefs.SetInt ("primeraEjecucion", 1);
+		revivido = false;
 	}
 
 	public void verRanking(){
-		if (gameCenterNemoris != null) {
+		/*if (gameCenterNemoris != null) {
 			gameCenterNemoris.mostrarRanking();
-		}
+		}*/
 		
 	/*	if (gpgsNemoris != null) {
 			gpgsNemoris.verRecords();
@@ -192,41 +145,11 @@ public class Central : MonoBehaviour {
 	}
 
 	public void revive(){
+		zanahoria.revivir ();
+		GameObject ads = GameObject.Find ("AppBudizz");
 		if (PlayerPrefs.GetInt ("activateAdsAdBuddiz", 0) == 1 && ads != null) {
-			if (PlayerPrefs.GetInt ("primeraEjecucion", 0) % 3 != 0) {
-				print ("interstitial");
-				if (AdBuddizBinding.IsReadyToShowAd ())
-					ads.mostrarAdBuddiz();
-				else {
-					adsH.mostrarAd();
-				}
-			}
+			ads.SendMessage("mostrarAdBuddiz");
 		}
-
-		if (PlayerPrefs.GetInt ("activateAdsHeyDay", 0) == 1 && adsH != null) {
-			if (PlayerPrefs.GetInt ("primeraEjecucion", 0) % 3 == 0) {
-				print ("video");
-				if((adsH.videoIncentivado && !HZIncentivizedAd.isAvailable()) && (!adsH.videoIncentivado && !HZVideoAd.isAvailable())){
-					if (ads.rewardedVideo && AdBuddizBinding.RewardedVideo.IsReadyToShow()) {
-						ads.mostrarVideoAdBuddiz();
-					}
-					else{
-						if (AdBuddizBinding.IsReadyToShowAd ())
-							ads.mostrarAdBuddiz();
-						else {
-							adsH.mostrarAd();
-						}
-					}
-				}
-				else
-					adsH.mostrarVideo();
-			}
-		}
-
-		StartCoroutine (esperarAd ());
-	}
-
-	IEnumerator esperarAd(){
 		foreach(TweenPosition t in juegoUI)
 			t.PlayForward();
 		foreach(TweenPosition t in resumenUI)
@@ -235,41 +158,20 @@ public class Central : MonoBehaviour {
 		resumenMedallaSprite.gameObject.SetActive(false);
 		botonRevive.SetActive(false);
 		botonReviveComprado.SetActive(false);
-		yield return new WaitForSeconds (0.1f);
-		for (int i = 0; i < 30; i++){
-			if(ads == null || adsH == null) break;
-			if(!ads.mostrandoAd && !adsH.mostrandoAd && !adsH.mostrandoAdVideo) break;
-			yield return new WaitForSeconds (1f);
-		}
-		zanahoria.revivir ();
-
 		revivido = true;
-		StartCoroutine (reviveAnimacion ());
-	}
-
-	IEnumerator reviveAnimacion(){
-		zanahoria.thankyou.SetActive (true);
-		yield return new WaitForSeconds (0.1f);
-		for (int i = 0; i < 10; i++) {
-			zanahoria.conejoNormal.color = new Color(1f, 1f, 1f, 0f);
-			yield return new WaitForSeconds (0.1f);
-			zanahoria.conejoNormal.color = new Color(1f, 1f, 1f, 1f);
-			yield return new WaitForSeconds (0.1f);
-		}
-		zanahoria.thankyou.SetActive (false);
 	}
 
 	public void resumenJuego(int planetas, int nConejos){
-		if (gameCenterNemoris != null) {
-			//if(planetas > PlayerPrefs.GetInt("maximoPlanetas", 0)){
+		/*if (gameCenterNemoris != null) {
+			if(planetas > PlayerPrefs.GetInt("maximoPlanetas", 0)){
 				#if UNITY_IOS
 				gameCenterNemoris.enviarRanking ("planets", planetas);
 				#endif
 				#if UNITY_ANDROID
 				gameCenterNemoris.enviarRanking ("CgkI6uTtj40GEAIQAQ", planetas);
 				#endif
-			//}
-			//if(PlayerPrefs.GetInt ("nConejos", 0) > 0 && nConejos > 0){
+			}
+			if(PlayerPrefs.GetInt ("nConejos", 0) > 0 && nConejos > 0){
 				#if UNITY_IOS
 				gameCenterNemoris.enviarRanking ("rescued", PlayerPrefs.GetInt ("nConejos", 0));
 				#endif
@@ -277,8 +179,8 @@ public class Central : MonoBehaviour {
 				gameCenterNemoris.enviarRanking ("CgkI6uTtj40GEAIQAg", PlayerPrefs.GetInt ("nConejos", 0));
 				#endif
 
-			//}
-		}
+			}
+		}*/
 
 		/*if (gpgsNemoris != null) {
 			if(planetas > PlayerPrefs.GetInt("maximoPlanetas", 0)){
@@ -301,17 +203,6 @@ public class Central : MonoBehaviour {
 				n = "silver";
 			if (planetas >= 50)
 				n = "gold";
-#if UNITY_IOS
-			if(n == "bronze")
-				achievements._ReportAchievement("broncemedalist ", 100.0f);
-			else {
-				if(n == "silver")
-					achievements._ReportAchievement("silvermedalist ", 100.0f);
-				else
-					if(n == "gold")
-						achievements._ReportAchievement("goldmedalist ", 100.0f);
-			}
-#endif
 			resumenMedallaSprite.spriteName = n;
 			resumenMedallaSprite.SendMessage ("PlayForward");
 			medallaParticulas.Play ();
@@ -321,8 +212,7 @@ public class Central : MonoBehaviour {
 			resumenMedallaSprite.gameObject.SetActive (false);
 		}
 
-		if (planetas >= 2 && !revivido) {
-			print (PlayerPrefs.GetInt ("activateAdsAdBuddiz", 1));
+		if (planetas >= 3 && !revivido) {
 			botonRevive.SetActive (PlayerPrefs.GetInt ("activateAdsAdBuddiz", 1) == 1);
 			botonReviveComprado.SetActive (PlayerPrefs.GetInt ("activateAdsAdBuddiz", 1) == 0);
 			if(PlayerPrefs.GetInt("instruccionesFinalMostrado", 0) == 0){
@@ -360,18 +250,9 @@ public class Central : MonoBehaviour {
 	}
 
 	public void verLogros(){
-		if (gameCenterNemoris != null) {
+		/*if (gameCenterNemoris != null) {
 			gameCenterNemoris.mostrarLogros ();
-		}
-	}
-
-	public void compartirFacebook(){
-		Application.OpenURL ("https://www.facebook.com/sharer/sharer.php?u=http://nemorisgames.com/come-home-space-carrot-bunny/&t=I%20have%20a%20record%20of%2021%20in%20Come%20Home,%20Space%20Carrot%20Bunny.%20Can%20you%20beat%20me?%20");
-	}
-	
-	public void compartirTwitter(){
-		//Application.OpenURL ("https://mobile.twitter.com/home?status=I%20have%20a%20record%20of%2021%20in%20Come%20Home,%20Space%20Carrot%20Bunny.%20Can%20you%20beat%20me?%20http://nemorisgames.com/come-home-space-carrot-bunny/");
-		Application.OpenURL ("http://twitter.com/intent/tweet?text=I%20have%20a%20new%20record%20in%20Come%20Home,%20Space%20Carrot%20Bunny.%20Can%20you%20beat%20me?%20http://nemorisgames.com/come-home-space-carrot-bunny/");
+		}*/
 	}
 
 	IEnumerator cargarEscena(string nombre){
@@ -392,7 +273,7 @@ public class Central : MonoBehaviour {
 	}
 
 	public void agregarPlaneta(){
-		//Central.AreaSpawnPlanetas = new Rect (50f + (15f - 15f * Mathf.Clamp01(nPlanetasEliminados / 10f)), -20f + (15f - 15f * Mathf.Clamp01(nPlanetasEliminados / 10f)), 30f * Mathf.Clamp01(nPlanetasEliminados / 10f), 40f * Mathf.Clamp01(nPlanetasEliminados / 10f));
+		Central.AreaSpawnPlanetas = new Rect (16f + (15f - 15f * Mathf.Clamp01(nPlanetasEliminados / 10f)), -15f + (15f - 15f * Mathf.Clamp01(nPlanetasEliminados / 10f)), 26f * Mathf.Clamp01(nPlanetasEliminados / 10f), 30f * Mathf.Clamp01(nPlanetasEliminados / 10f));
 		nPlanetasEliminados++;
 		//GameObject g = (GameObject)Instantiate (planetaPrefab);
 		//Planeta p = g.GetComponent<Planeta> ();
@@ -401,9 +282,9 @@ public class Central : MonoBehaviour {
 	}
 
 	public void salir(){
-		if(HeyzapAds.onBackPressed())
+		/*if(HeyzapAds.onBackPressed())
 			return;
-		else
+		else*/
 			Application.Quit ();
 	}
 

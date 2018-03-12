@@ -35,34 +35,17 @@ public class Zanahoria : MonoBehaviour {
 	public EstadoZanahoria estado = EstadoZanahoria.enPlaneta;
 	Planeta ultimoPlaneta;
 
-	GameCenterNemoris gameCenterNemoris;
+	//GameCenterNemoris gameCenterNemoris;
 	
 	public UISprite barraCarga;
 
 	int altoSugerido;
-
-	public SpriteRenderer conejoNormal;
-	public SpriteRenderer conejoHD;
-
-	public GameObject thankyou;
-
-	public ParticleSystem explosionMuerte;
-	public AudioClip explosionMuerteSonido;
-
-	public Transform perseguidor;
-	public UILabel distanciaPerseguidor;
-	public UISprite perseguidorWarning;
-
-	MovimientoConstante perseguidorMovimiento;
-	public GameObject flechaDireccion;
-
 	// Use this for initialization
 	void Start () {
-		GameObject g = GameObject.Find ("GameCenterNemoris");
+		/*GameObject g = GameObject.Find ("GameCenterNemoris");
 		if (g != null) {
 			gameCenterNemoris = g.GetComponent<GameCenterNemoris>();
-		}
-		perseguidorMovimiento = perseguidor.GetComponent<MovimientoConstante> ();
+		}*/
 		nConejos = PlayerPrefs.GetInt ("nConejos", 0);
 		rigidbody = GetComponent<Rigidbody2D> ();
 		//rigidbody.isKinematic = true;
@@ -74,42 +57,13 @@ public class Zanahoria : MonoBehaviour {
 	}
 
 	public void activar(){
-		perseguidorMovimiento = perseguidor.GetComponent<MovimientoConstante> ();
 		estado = Zanahoria.EstadoZanahoria.enPlaneta;
-		perseguidorMovimiento.enabled = true;
-	}
-
-	IEnumerator esperaMuerte(){
-		yield return new WaitForSeconds (1f);
-		transform.position = new Vector3(transform.position.x, 100f, transform.position.z);
-		SpriteRenderer c = transform.Find("conejo").GetComponent<SpriteRenderer>();
-		c.color = new Color(c.color.r, c.color.g, c.color.b, 1f);
-		rigidbody.isKinematic = false;
-		muerte ();
-	}
-
-	void OnTriggerEnter2D(Collider2D coll){
-		if(coll.gameObject.CompareTag("Perseguidor"))
-			explosionPlayer ();
-	}
-
-	void explosionPlayer(){
-		rigidbody.isKinematic = true;
-		SpriteRenderer c = transform.Find("conejo").GetComponent<SpriteRenderer>();
-		c.color = new Color(c.color.r, c.color.g, c.color.b, 0f);
-		explosionMuerte.Play();
-		conejosAudio.PlayOneShot(explosionMuerteSonido);
-		StartCoroutine(esperaMuerte());
 	}
 
 	void OnCollisionEnter2D(Collision2D coll) {
 		if (estado == EstadoZanahoria.enDisparo) {
 			humo.Stop ();
 			Planeta p = coll.gameObject.GetComponent<Planeta>();
-			if(p == null){
-				explosionPlayer();
-				return;
-			}
 			ultimoPlaneta = p;
 			if(!p.aterrizado){
 				contadorPlanetas++;
@@ -118,15 +72,14 @@ public class Zanahoria : MonoBehaviour {
 				central.mostrarNuevoConejo("+1");
 				nConejos++;
 				PlayerPrefs.SetInt("nConejos", nConejos);
-				if (gameCenterNemoris != null) {
+				/*if (gameCenterNemoris != null) {
 #if UNITY_IOS
-					if(nConejos == 1) achievements._ReportAchievement("firstrabbit", 100.0f);//firstrabbit
-					if(nConejos == 10) achievements._ReportAchievement("fivebunnies", 100.0f);//firstrabbit
+					if(nConejos == 1) gameCenterNemoris.enviarLogro("firstrabbit", 100.0);
 #endif
 #if UNITY_ANDROID
 					if(nConejos == 1) gameCenterNemoris.enviarLogro("CgkI6uTtj40GEAIQAw", 100.0);
 #endif
-				}
+				}*/
 
 				conejosLabel.text = "" + nConejos;
 				p.quitarConejo();
@@ -137,7 +90,7 @@ public class Zanahoria : MonoBehaviour {
 			if(!p.aterrizado) 
 				p.aterrizando();
 			rigidbody.isKinematic = true;
-			punto = coll.transform.Find("puntoFijo");
+			punto = coll.transform.FindChild("puntoFijo");
 			estado = EstadoZanahoria.enPlaneta;
 			fuerzaCarga = 0f;
 			
@@ -169,9 +122,6 @@ public class Zanahoria : MonoBehaviour {
 	}
 
 	public void revivir(){
-		perseguidor.position -= new Vector3 (100f, 0f, 0f);
-		perseguidorMovimiento.enabled = true;
-
 		estado = EstadoZanahoria.enPlaneta;
 		animator.SetBool("enVuelo", false);
 		fuerzaCarga = 0f;
@@ -179,10 +129,6 @@ public class Zanahoria : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (estado != EstadoZanahoria.enHoyoNegro) {
-			distanciaPerseguidor.text = "" + Mathf.Clamp (Mathf.RoundToInt (Vector3.Distance (transform.position, perseguidor.position)) - 50, 0, 999);
-			perseguidorWarning.alpha = Mathf.Clamp(1f - (int.Parse(distanciaPerseguidor.text) / 100f), 0f, 1f);
-		}
 		if (central.estado == Central.EstadoJuego.Pausa && estado != EstadoZanahoria.enDisparo)
 			return;
 		switch (estado) {
@@ -194,18 +140,14 @@ public class Zanahoria : MonoBehaviour {
 				cargando.Play();
 				cargandoAudio.Play();
 				animator.SetBool("cargando", true);
-				//barraCarga.transform.parent.localPosition = new Vector3(Camera.main.WorldToScreenPoint(Input.mousePosition).x + 50f, Camera.main.WorldToScreenPoint(Input.mousePosition).y + 75f, 0f);
+				//barraCarga.transform.parent.localPosition = new Vector3(Camera.main.WorldToScreenPoint(transform.position).x + 50f, Camera.main.WorldToScreenPoint(transform.position).y + 75f, 0f);
 				barraCarga.transform.parent.gameObject.SendMessage("PlayForward");
 				barraCarga.fillAmount = 0f;
-				flechaDireccion.SetActive(true);
 			}
 			break;
 		case EstadoZanahoria.preparando:
 			transform.position = punto.position;
-			//transform.rotation = punto.rotation;
-			transform.LookAt(Camera.main.ScreenToWorldPoint(Input.mousePosition));
-			transform.Rotate(0f, -90f, 0f);
-			transform.eulerAngles = new Vector3(0f, 0f, transform.eulerAngles.z);
+			transform.rotation = punto.rotation;
 			if(Input.GetButton("Fire1")){
 				fuerzaCarga += 1000f * Time.deltaTime;
 				if(fuerzaCarga > fuerzaCargaMaximo){
@@ -215,7 +157,7 @@ public class Zanahoria : MonoBehaviour {
 				barraCarga.fillAmount = (fuerzaCarga / fuerzaCargaMaximo);
 
 				//print (Input.mousePosition.x + " " + Input.mousePosition.y);
-				//barraCarga.transform.parent.localPosition = new Vector3(Camera.main.WorldToScreenPoint(Input.mousePosition).x + 0f, Camera.main.WorldToScreenPoint(Input.mousePosition).y + 0f, 0f) * altoSugerido / Screen.height;//Input.mousePosition.x + 50f, Input.mousePosition.y + 75f, 0f);
+				//barraCarga.transform.parent.localPosition = new Vector3(Camera.main.WorldToScreenPoint(transform.position).x + 0f, Camera.main.WorldToScreenPoint(transform.position).y + 0f, 0f) * altoSugerido / Screen.height;//Input.mousePosition.x + 50f, Input.mousePosition.y + 75f, 0f);
 			}
 			if(Input.GetButtonUp("Fire1")){
 				disparar();
@@ -223,11 +165,11 @@ public class Zanahoria : MonoBehaviour {
 			break;
 		case EstadoZanahoria.enDisparo:
 			//print (rigidbody.velocity.magnitude);
-			/*if(transform.eulerAngles.z < 0f || transform.eulerAngles.z > 180f){
+			if(transform.eulerAngles.z < 0f || transform.eulerAngles.z > 180f){
 				motorAudio.pitch = 0.3f;
 				humo.Stop();
 			}
-			else*/
+			else
 				motorAudio.pitch = rigidbody.velocity.magnitude / 40f;
 
 			if(tiempoConejoGrito < Time.time){
@@ -244,8 +186,12 @@ public class Zanahoria : MonoBehaviour {
 
 			transform.right = rigidbody.velocity.normalized;
 
-			if(transform.position.y < -45f || transform.position.y > 45f ){
-				muerte ();
+			if(transform.position.y < -40f){
+				barraCarga.transform.parent.gameObject.SendMessage("PlayReverse");
+				estado = EstadoZanahoria.enHoyoNegro;
+				rigidbody.isKinematic = true;
+				central.resumenJuego(contadorPlanetas, nConejos);
+				motorAudio.Stop();
 			}
 
 			break;
@@ -253,21 +199,11 @@ public class Zanahoria : MonoBehaviour {
 		//barraCarga.transform.parent.localPosition = new Vector3(Camera.main.WorldToScreenPoint(transform.position).x + 0f, Camera.main.WorldToScreenPoint(transform.position).y + 0f, 0f) * altoSugerido / Screen.height;//Input.mousePosition.x + 50f, Input.mousePosition.y + 75f, 0f);
 	}
 
-	void muerte(){
-		flechaDireccion.SetActive(false);
-		perseguidorMovimiento.enabled = false;
-		barraCarga.transform.parent.gameObject.SendMessage("PlayReverse");
-		estado = EstadoZanahoria.enHoyoNegro;
-		rigidbody.isKinematic = true;
-		central.resumenJuego(contadorPlanetas, nConejos);
-		motorAudio.Stop();
-	}
-
 	void disparar(){
 		if(fuerzaCarga > 500f){
 			print (new Vector2(transform.right.x, transform.right.y) * fuerzaCarga);
 			rigidbody.isKinematic = false;
-			rigidbody.AddForce(new Vector2(transform.right.x, transform.right.y) * Mathf.Clamp(fuerzaCarga, 1000f, fuerzaCargaMaximo));
+			rigidbody.AddForce(new Vector2(transform.right.x, transform.right.y) * fuerzaCarga);
 			estado = EstadoZanahoria.enDisparo;
 			explosion.Play();
 			conejoGritar();
@@ -282,7 +218,6 @@ public class Zanahoria : MonoBehaviour {
 			estado = EstadoZanahoria.enPlaneta;
 		}
 		
-		flechaDireccion.SetActive(false);
 		animator.SetBool("cargando", false);
 		cargandoAudio.Stop();
 		cargando.Stop();

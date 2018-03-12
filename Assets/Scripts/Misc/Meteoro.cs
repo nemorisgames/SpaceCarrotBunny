@@ -8,19 +8,18 @@ public class Meteoro : MonoBehaviour {
 	public Vector2 velocidadRango = new Vector2(0.2f, 0.5f);
 	Vector3 posicionInicial;
 	AudioSource audio;
-	public float tiempoEsperaMaximo = 30f;
 	// Use this for initialization
 	IEnumerator Start () {
 		audio = gameObject.GetComponent<AudioSource> ();
 		camara = Camera.main.transform;
 		posicionInicial = transform.position - camara.position;
-		yield return new WaitForSeconds (Random.Range(2f, tiempoEsperaMaximo * 2f / 3f));
+		yield return new WaitForSeconds (Random.Range(2f, 20f));
 		activar ();
 	}
 
 	IEnumerator activarMeteoro(){
 		//print ("activando");
-		yield return new WaitForSeconds (Random.Range(2f, tiempoEsperaMaximo));
+		yield return new WaitForSeconds (Random.Range(2f, 30f));
 		transform.position = posicionInicial + camara.position;
 		//print ("activando");
 		activar ();

@@ -29,8 +29,6 @@ public class Planeta : MonoBehaviour {
 	public float rangoMovimientoX = 0.1f;
 	public float rangoMovimientoY = 0.1f;
 
-	public TrailRenderer trail;
-
 	// Use this for initialization
 	void Start () {
 		camara = Camera.main.transform;
@@ -86,7 +84,6 @@ public class Planeta : MonoBehaviour {
 	}
 
 	public void inicializar(Planeta p){
-		trail.Reset(this);
 		aterrizado = false;
 		if (camara == null) {
 			camara = Camera.main.transform;
@@ -104,9 +101,9 @@ public class Planeta : MonoBehaviour {
 		texto.transform.localScale = Vector3.one * 0.5f / transform.localScale.x;
 		velocidadRotacion = (Random.Range(0f,1f)>0.5f?1f:-1f) * 35f + Random.Range (-10f, 10f);
 
-		float rangoMovimiento = Mathf.Clamp(central.nPlanetasEliminados * 0.05f, 0f, 0.2f);
+		float rangoMovimiento = Mathf.Clamp(central.nPlanetasEliminados * 0.01f, 0f, 0.15f);
 		rangoMovimientoX = (Random.Range(0, 100) <  Mathf.Clamp(central.nPlanetasEliminados * 2f, 0f, 100f))?(Mathf.Sign(Random.Range(-1, 1)) * rangoMovimiento):0f;
-		if ((Random.Range (0, 100) < Mathf.Clamp (central.nPlanetasEliminados * 5f, 0f, 100f))) {
+		if ((Random.Range (0, 100) < Mathf.Clamp (central.nPlanetasEliminados * 2f, 0f, 100f))) {
 			if(rangoMovimientoX != 0f){
 				rangoMovimientoY = Mathf.Sign(Random.Range(-1, 1)) * rangoMovimientoX;
 			}
@@ -124,7 +121,6 @@ public class Planeta : MonoBehaviour {
 	void Update () {
 		objetoRotacion.Rotate (0f, 0f, velocidadRotacion * Time.deltaTime);
 		if (camara.position.x - transform.position.x > 130f) {
-
 			central.eliminarPlaneta(this);
 		}
 		transform.position += new Vector3(rangoMovimientoX * Mathf.Cos(Time.time%360), rangoMovimientoY * Mathf.Sin(Time.time%360), 0f);
