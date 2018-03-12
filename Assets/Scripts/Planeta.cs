@@ -34,9 +34,9 @@ public class Planeta : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		camara = Camera.main.transform;
-		conejo = transform.FindChild ("puntoRotacion/pivoteConejo/placeholderConejo/conejo");
+		conejo = transform.Find ("puntoRotacion/pivoteConejo/placeholderConejo/conejo");
 		central = camara.GetComponent<Central> ();
-		areaGravedad = transform.FindChild ("gravedad");
+		areaGravedad = transform.Find ("gravedad");
 		distanciaEfecto = Random.Range (rangoEfecto.x, rangoEfecto.y);
 		int indiceAux = 0;
 		switch (gameObject.name) {

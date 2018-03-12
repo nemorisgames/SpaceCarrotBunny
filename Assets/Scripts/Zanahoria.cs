@@ -82,7 +82,7 @@ public class Zanahoria : MonoBehaviour {
 	IEnumerator esperaMuerte(){
 		yield return new WaitForSeconds (1f);
 		transform.position = new Vector3(transform.position.x, 100f, transform.position.z);
-		SpriteRenderer c = transform.FindChild("conejo").GetComponent<SpriteRenderer>();
+		SpriteRenderer c = transform.Find("conejo").GetComponent<SpriteRenderer>();
 		c.color = new Color(c.color.r, c.color.g, c.color.b, 1f);
 		rigidbody.isKinematic = false;
 		muerte ();
@@ -95,7 +95,7 @@ public class Zanahoria : MonoBehaviour {
 
 	void explosionPlayer(){
 		rigidbody.isKinematic = true;
-		SpriteRenderer c = transform.FindChild("conejo").GetComponent<SpriteRenderer>();
+		SpriteRenderer c = transform.Find("conejo").GetComponent<SpriteRenderer>();
 		c.color = new Color(c.color.r, c.color.g, c.color.b, 0f);
 		explosionMuerte.Play();
 		conejosAudio.PlayOneShot(explosionMuerteSonido);
@@ -137,7 +137,7 @@ public class Zanahoria : MonoBehaviour {
 			if(!p.aterrizado) 
 				p.aterrizando();
 			rigidbody.isKinematic = true;
-			punto = coll.transform.FindChild("puntoFijo");
+			punto = coll.transform.Find("puntoFijo");
 			estado = EstadoZanahoria.enPlaneta;
 			fuerzaCarga = 0f;
 			
