@@ -1,0 +1,6 @@
+lastUpgrade=00920
+proj.AppId=209681347178
+android.SetupDone=true
+ios.ClientId=209681347178-f2b03tfa1k70bht7k4vdkfn124lqmg7p.apps.googleusercontent.com
+ios.BundleId=com.nemorisgames.RocketRabbits
+ios.SetupDone=true
