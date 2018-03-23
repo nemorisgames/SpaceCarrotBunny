@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Escenas/CargaInicial.unity
+- path: Assets/Escenas/Escena1.5.unity
   isLoaded: 1
   isActive: 1
