@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Escenas/Escena1.5.unity
+- path: Assets/Escenas/Football.unity
   isLoaded: 1
   isActive: 1
