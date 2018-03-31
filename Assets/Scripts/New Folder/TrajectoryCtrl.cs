@@ -47,7 +47,7 @@ namespace CLASE1
                 segments[i] = iPos;
             }
 
-            TrayectoriaLinea.positionCount = pullCtrl.QtyOfsegments;
+            TrayectoriaLinea.numPositions = pullCtrl.QtyOfsegments;
 
             
             for (int i = 0; i < pullCtrl.QtyOfsegments; i++)

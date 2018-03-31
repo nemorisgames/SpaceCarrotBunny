@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
+# Visual Studio 2015
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceCarrotBunny.Plugins", "SpaceCarrotBunny.Plugins.csproj", "{3949147B-A404-A006-FCAD-B35E3C9D54BA}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceCarrotBunny", "SpaceCarrotBunny.csproj", "{D5C412F5-FA8A-0845-926B-1246E19310A8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceCarrotBunny.Editor", "SpaceCarrotBunny.Editor.csproj", "{CF3212E7-2999-356D-1823-EB2C4B0EAB0C}"
@@ -11,6 +13,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3949147B-A404-A006-FCAD-B35E3C9D54BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3949147B-A404-A006-FCAD-B35E3C9D54BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3949147B-A404-A006-FCAD-B35E3C9D54BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3949147B-A404-A006-FCAD-B35E3C9D54BA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D5C412F5-FA8A-0845-926B-1246E19310A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D5C412F5-FA8A-0845-926B-1246E19310A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D5C412F5-FA8A-0845-926B-1246E19310A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
