@@ -246,8 +246,6 @@
     <Compile Include="Assets\Nacho\Correr.cs" />
     <Compile Include="Assets\Scripts\Central.cs" />
     <Compile Include="Assets\Scripts\ControlCamara.cs" />
-    <Compile Include="Assets\Scripts\Misc\CargaInicial.cs" />
-    <Compile Include="Assets\Scripts\Misc\PasarEscena.cs" />
     <Compile Include="Assets\Scripts\New Folder\PullCtrl.cs" />
     <Compile Include="Assets\Scripts\New Folder\Spline.cs" />
     <Compile Include="Assets\Scripts\New Folder\ThrownObject.cs" />
@@ -258,12 +256,6 @@
     <Compile Include="Assets\Scripts\Zanahoria.cs" />
     <Compile Include="Assets\Scripts\botonClick.cs" />
     <Compile Include="Assets\SpaceAssets\Scripts\CameraHorizontalMovement.cs" />
-    <Compile Include="Assets\SpaceAssets\Scripts\Meteoro.cs" />
-    <Compile Include="Assets\SpaceAssets\Scripts\Misc\Oscilation.cs" />
-    <Compile Include="Assets\SpaceAssets\Scripts\Misc\RandomColor.cs" />
-    <Compile Include="Assets\SpaceAssets\Scripts\Misc\RandomRotation.cs" />
-    <Compile Include="Assets\SpaceAssets\Scripts\Misc\RandomSize.cs" />
-    <Compile Include="Assets\SpaceAssets\Scripts\Misc\RandomSprites.cs" />
     <Compile Include="Assets\SpaceAssets\Scripts\MovimientoScroll.cs" />
     <Compile Include="Assets\SpaceAssets\Scripts\ParallaxMovement.cs" />
     <Compile Include="Assets\SpaceAssets\Scripts\Planet.cs" />
