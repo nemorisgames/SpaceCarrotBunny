@@ -39,6 +39,6 @@ public class BalonPj : MonoBehaviour {
             transform.position = Personaje.transform.position + offset;
         }
 
-            
-       }
+    }
+   
 }

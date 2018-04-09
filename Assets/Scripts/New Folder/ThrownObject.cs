@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-namespace CLASE1
-{
+namespace CLASE1{
     [RequireComponent(typeof(Rigidbody2D))]
     public class ThrownObject : MonoBehaviour
     {
@@ -25,10 +24,9 @@ namespace CLASE1
         private Vector2 velocityToRg = Vector2.zero;
         public void ThrowObj(Vector3 velocity)
         {
-            Debug.Log("ThrowObj");
+            Debug.Log("BalonLanzado");
 
             velocityToRg = velocity;
-
             rigidBody.velocity = velocityToRg;
             rigidBody.isKinematic = false;
         }
@@ -39,5 +37,6 @@ namespace CLASE1
             rigidBody.velocity = velocity;
             transform.position = pos;
         }
-    }
+        
+}
 }
