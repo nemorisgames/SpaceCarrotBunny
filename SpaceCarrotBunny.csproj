@@ -104,10 +104,6 @@
     <Compile Include="Assets\JMO Assets\Cartoon FX\Scripts\CFX_LightIntensityFade.cs" />
     <Compile Include="Assets\JMO Assets\Cartoon FX\Scripts\CFX_ShurikenThreadFix.cs" />
     <Compile Include="Assets\JMO Assets\Cartoon FX\Spawn System\CFX_SpawnSystem.cs" />
-    <Compile Include="Assets\Nacho\BalonAmigo.cs" />
-    <Compile Include="Assets\Nacho\BalonPj.cs" />
-    <Compile Include="Assets\Nacho\Control.cs" />
-    <Compile Include="Assets\Nacho\Correr.cs" />
     <Compile Include="Assets\NGUI\Examples\Scripts\InventorySystem\Game\EquipItems.cs" />
     <Compile Include="Assets\NGUI\Examples\Scripts\InventorySystem\Game\EquipRandomItem.cs" />
     <Compile Include="Assets\NGUI\Examples\Scripts\InventorySystem\Game\UICursor.cs" />
@@ -243,6 +239,7 @@
     <Compile Include="Assets\NGUI\Scripts\UI\UITexture.cs" />
     <Compile Include="Assets\NGUI\Scripts\UI\UITooltip.cs" />
     <Compile Include="Assets\NGUI\Scripts\UI\UIViewport.cs" />
+    <Compile Include="Assets\Pase.cs" />
     <Compile Include="Assets\Scripts\Aleatorio.cs" />
     <Compile Include="Assets\Scripts\botonClick.cs" />
     <Compile Include="Assets\Scripts\Central.cs" />
@@ -252,7 +249,11 @@
     <Compile Include="Assets\Scripts\Misc\MovimientoScroll.cs" />
     <Compile Include="Assets\Scripts\Misc\PasarEscena.cs" />
     <Compile Include="Assets\Scripts\Misc\regeneracionAleatoria.cs" />
+    <Compile Include="Assets\Scripts\New Folder\Camaraprincipal.cs" />
+    <Compile Include="Assets\Scripts\New Folder\CambioPadre.cs" />
+    <Compile Include="Assets\Scripts\New Folder\Correr.cs" />
     <Compile Include="Assets\Scripts\New Folder\PullCtrl.cs" />
+    <Compile Include="Assets\Scripts\New Folder\Puntos.cs" />
     <Compile Include="Assets\Scripts\New Folder\Spline.cs" />
     <Compile Include="Assets\Scripts\New Folder\ThrownObject.cs" />
     <Compile Include="Assets\Scripts\New Folder\TrailMaker.cs" />

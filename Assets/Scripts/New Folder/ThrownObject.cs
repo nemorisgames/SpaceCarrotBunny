@@ -10,6 +10,7 @@ namespace CLASE1
     {
         private Rigidbody2D rigidBody;
         private Collider2D coll2D;
+       
 
         public Collider2D Collider { get { return coll2D; } }
 
@@ -39,5 +40,6 @@ namespace CLASE1
             rigidBody.velocity = velocity;
             transform.position = pos;
         }
+
     }
 }

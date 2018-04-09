@@ -6,6 +6,8 @@ namespace CLASE1
 {
     public class PullCtrl : MonoBehaviour
     {
+
+        public CambioPadre ElPadre;
         
         public ThrownObject throwObj;
         public Transform dotHelper;
@@ -16,7 +18,7 @@ namespace CLASE1
         public float DistanciaMaxPunto = 1.5F;
         private float CoefPuntoTiro = 1.5F;
         public int LongitudSegmento = 13;
-        private float Trayectoriaoff = 0.01F;
+        private float Trayectoriaoff = 0.01F; 
         public float Puntotiro = 0F;
 
         private EstadoTirar Estadotirar;
@@ -29,11 +31,11 @@ namespace CLASE1
         private TrajectoryCtrl trajCtrl;
         
 
-        public Vector3 PosDotHelper { get { return dotHelper.position; } }
+        public Vector3 PosDotHelper { get { return dotHelper.transform.position; } }
         public Vector3 PosThrowTarget { get { return throwObj.transform.position; } }
 
         public int QtyOfsegments { get { return LongitudSegmento; } }
-        public float DotPosZ { get { return Puntotiro; } }
+        public float DotPosZ { get { return Puntotiro; } }  
         public Vector3 PosPullingStart { get { return posPullingStart; } }
         public float StepMatOffset { get { return Trayectoriaoff; } }
 
@@ -78,10 +80,12 @@ namespace CLASE1
                     if (Input.GetMouseButtonDown(0))
                     {
                         //get the point on screen user has tapped
-                        Vector3 location = camMain.ScreenToWorldPoint(Input.mousePosition);
+
+                        Vector3 location= camMain.ScreenToWorldPoint(Input.mousePosition);
                         //if user has tapped onto the ball
                         if (throwObj.Collider == Physics2D.OverlapPoint(location))
                             Estadotirar = EstadoTirar.UsuarioTirando;
+                        
                     }
                     break;
                 case EstadoTirar. UsuarioTirando:
@@ -114,7 +118,9 @@ namespace CLASE1
                         float distance = Vector3.Distance(posPullingStart, dotHelper.position);
                         TrayectoriaLinea.enabled = false;
                         ThrowObj(distance);
+                        ElPadre.Cambio = true;
                     }
+                    
                     break;
 
                 default:
