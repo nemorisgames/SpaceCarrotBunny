@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ParallaxMovement : MonoBehaviour {
-    public enum Direction { LeftToRight, RigthToLeft, DownToUp, UpToDown };
-    public Direction direction = Direction.LeftToRight;
+    //Set the direction that the screen or the camera is moving
+    ScrollDirection direction;
+    //This speed value create the parallax effect
+    //Note: This speed affect the movement of the object based on the camera speed
     public float minSpeed = 0.2f;
     public float maxSpeed = 0.6f;
     Vector3 speed;
@@ -12,25 +14,32 @@ public class ParallaxMovement : MonoBehaviour {
     float lastScrollValue;
 
     public enum BehaviourOnExit { Destroy, Regenerate };
+    //Define if the object is destroyed or regenerate when the object is out of the screen
     public BehaviourOnExit behaviourOnExit = BehaviourOnExit.Regenerate;
 
     Transform cameraTransform;
+    //Determine the value offScreen that the object has to be to consider out of screen
+    //It also is used to regenerate it
+    //if the value is 1f is the screen's width or heigth depending on the direction   
+    public float limitOffScreen = 1f;
 
     void Start () {
+        direction = SpaceManager.instance.scrollDirection;
         cameraTransform = Camera.main.transform;
-        if(minSpeed > maxSpeed) Debug.LogError("The variable minSpeed cannot be greater than maxSpeed");
+        if (minSpeed > maxSpeed) Debug.LogError("The variable minSpeed cannot be greater than maxSpeed");
+        //Set the speed vector based on the scroll direction
         switch (direction)
         {
-            case Direction.LeftToRight:
+            case ScrollDirection.LeftToRight:
                 speed = new Vector3(Random.Range(minSpeed, maxSpeed), 0f, 0f);
                 break;
-            case Direction.RigthToLeft:
-                speed = new Vector3(- Random.Range(minSpeed, maxSpeed), 0f, 0f);
+            case ScrollDirection.RightToLeft:
+                speed = new Vector3(-Random.Range(minSpeed, maxSpeed), 0f, 0f);
                 break;
-            case Direction.DownToUp:
-                speed = new Vector3(0f, Random.Range(minSpeed, maxSpeed), 0f);
+            case ScrollDirection.DownToUp:
+                speed = new Vector3(0f, -Random.Range(minSpeed, maxSpeed), 0f);
                 break;
-            case Direction.UpToDown:
+            case ScrollDirection.UpToDown:
                 speed = new Vector3(0f, Random.Range(minSpeed, maxSpeed), 0f);
                 break;
         }
@@ -40,30 +49,62 @@ public class ParallaxMovement : MonoBehaviour {
     {
         switch (direction)
         {
-            case Direction.LeftToRight:
-                transform.position = Camera.main.ViewportToWorldPoint(new Vector3(1.3f, Random.Range(0f, 1f), 10f));
+            case ScrollDirection.LeftToRight:
+                transform.position = Camera.main.ViewportToWorldPoint(new Vector3(1f + limitOffScreen, Random.Range(0f, 1f), 10f));
                 break;
-            case Direction.RigthToLeft:
-                transform.position = Camera.main.ViewportToWorldPoint(new Vector3(-0.3f, Random.Range(0f, 1f), 10f));
+            case ScrollDirection.RightToLeft:
+                transform.position = Camera.main.ViewportToWorldPoint(new Vector3(-limitOffScreen, Random.Range(0f, 1f), 10f));
                 break;
-            case Direction.DownToUp:
-                transform.position = Camera.main.ViewportToWorldPoint(new Vector3(Random.Range(0f, 1f), 1.3f, 10f));
+            case ScrollDirection.DownToUp:
+                transform.position = Camera.main.ViewportToWorldPoint(new Vector3(Random.Range(0f, 1f), 1f + limitOffScreen, 10f));
                 break;
-            case Direction.UpToDown:
-                transform.position = Camera.main.ViewportToWorldPoint(new Vector3(Random.Range(0f, 1f), -0.3f, 10f));
+            case ScrollDirection.UpToDown:
+                transform.position = Camera.main.ViewportToWorldPoint(new Vector3(Random.Range(0f, 1f), -limitOffScreen, 10f));
                 break;
         }
+        //Check for random components to randomize the object
+        RandomSize[] randomSizes = gameObject.GetComponentsInChildren<RandomSize>();
+        RandomRotation[] randomRotations = gameObject.GetComponentsInChildren<RandomRotation>();
+        RandomColor[] randomColors = gameObject.GetComponentsInChildren<RandomColor>();
+        RandomSprite[] randomSprites = gameObject.GetComponentsInChildren<RandomSprite>();
+
+        //Randomize the components in the object and his children objects
+        if (randomSizes != null) foreach (RandomSize r in randomSizes) r.Generate();
+        if (randomRotations != null) foreach (RandomRotation r in randomRotations) r.Generate();
+        if (randomColors != null) foreach (RandomColor r in randomColors) r.Generate();
+        if (randomSprites != null) foreach (RandomSprite r in randomSprites) r.Generate();
     }
 	
 	void Update () {
-        scrollValue = cameraTransform.position.x - lastScrollValue;
-        lastScrollValue = cameraTransform.position.x;
-        transform.position += speed * scrollValue;
-
+        //Set the current scroll position based on the camera position and the scroll direction
         switch (direction)
         {
-            case Direction.LeftToRight:
-                if(Camera.main.WorldToViewportPoint(transform.position).x < -0.3f)
+            case ScrollDirection.LeftToRight:
+                scrollValue = cameraTransform.position.x - lastScrollValue;
+                lastScrollValue = cameraTransform.position.x;
+                break;
+            case ScrollDirection.RightToLeft:
+                scrollValue = -cameraTransform.position.x + lastScrollValue;
+                lastScrollValue = cameraTransform.position.x;
+                break;
+            case ScrollDirection.DownToUp:
+                scrollValue = -cameraTransform.position.y + lastScrollValue;
+                lastScrollValue = cameraTransform.position.y;
+                break;
+            case ScrollDirection.UpToDown:
+                scrollValue = cameraTransform.position.y - lastScrollValue;
+                lastScrollValue = cameraTransform.position.y;
+                break;
+        }
+
+        //Apply the speed vector to the object
+        transform.position += speed * scrollValue;
+
+        //Check if the object is out of the screen
+        switch (direction)
+        {
+            case ScrollDirection.LeftToRight:
+                if(Camera.main.WorldToViewportPoint(transform.position).x < -limitOffScreen)
                 {
                     switch (behaviourOnExit)
                     {
@@ -76,8 +117,8 @@ public class ParallaxMovement : MonoBehaviour {
                     }
                 }
                 break;
-            case Direction.RigthToLeft:
-                if (Camera.main.WorldToViewportPoint(transform.position).x > 1.3f)
+            case ScrollDirection.RightToLeft:
+                if (Camera.main.WorldToViewportPoint(transform.position).x > 1f + limitOffScreen)
                 {
                     switch (behaviourOnExit)
                     {
@@ -90,8 +131,8 @@ public class ParallaxMovement : MonoBehaviour {
                     }
                 }
                 break;
-            case Direction.DownToUp:
-                if (Camera.main.WorldToViewportPoint(transform.position).y > 1.3f)
+            case ScrollDirection.DownToUp:
+                if (Camera.main.WorldToViewportPoint(transform.position).y < -limitOffScreen)
                 {
                     switch (behaviourOnExit)
                     {
@@ -104,8 +145,8 @@ public class ParallaxMovement : MonoBehaviour {
                     }
                 }
                 break;
-            case Direction.UpToDown:
-                if (Camera.main.WorldToViewportPoint(transform.position).y < -0.3f)
+            case ScrollDirection.UpToDown:
+                if (Camera.main.WorldToViewportPoint(transform.position).y > 1f + limitOffScreen)
                 {
                     switch (behaviourOnExit)
                     {
