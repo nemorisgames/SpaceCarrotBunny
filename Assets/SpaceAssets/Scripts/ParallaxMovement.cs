@@ -31,15 +31,19 @@ public class ParallaxMovement : MonoBehaviour {
         switch (direction)
         {
             case ScrollDirection.LeftToRight:
+                lastScrollValue = cameraTransform.position.x;
                 speed = new Vector3(Random.Range(minSpeed, maxSpeed), 0f, 0f);
                 break;
             case ScrollDirection.RightToLeft:
+                lastScrollValue = cameraTransform.position.x;
                 speed = new Vector3(-Random.Range(minSpeed, maxSpeed), 0f, 0f);
                 break;
             case ScrollDirection.DownToUp:
+                lastScrollValue = cameraTransform.position.y;
                 speed = new Vector3(0f, -Random.Range(minSpeed, maxSpeed), 0f);
                 break;
             case ScrollDirection.UpToDown:
+                lastScrollValue = cameraTransform.position.y;
                 speed = new Vector3(0f, Random.Range(minSpeed, maxSpeed), 0f);
                 break;
         }

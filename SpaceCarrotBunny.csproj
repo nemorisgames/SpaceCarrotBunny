@@ -81,7 +81,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\CameraMovement.cs" />
     <Compile Include="Assets\InputTouches\ExampleScripts\C#\DPad.cs" />
     <Compile Include="Assets\InputTouches\ExampleScripts\C#\Demo\Back.cs" />
     <Compile Include="Assets\InputTouches\ExampleScripts\C#\Demo\DemoMenu.cs" />
@@ -261,6 +260,7 @@
     <Compile Include="Assets\Scripts\Zanahoria.cs" />
     <Compile Include="Assets\Scripts\botonClick.cs" />
     <Compile Include="Assets\Scripts\regeneracionAleatoria.cs" />
+    <Compile Include="Assets\SpaceAssets\Scripts\CameraMovement.cs" />
     <Compile Include="Assets\SpaceAssets\Scripts\Misc\RandomColor.cs" />
     <Compile Include="Assets\SpaceAssets\Scripts\Misc\RandomRotation.cs" />
     <Compile Include="Assets\SpaceAssets\Scripts\Misc\RandomSize.cs" />
