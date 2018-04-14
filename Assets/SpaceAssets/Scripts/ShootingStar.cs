@@ -23,8 +23,15 @@ public class ShootingStar : MonoBehaviour {
     float modificator = 1f;
     //Distance from the camera. Used if the camera is not orthogonal
     float cameraDistance = 10f;
+
+    ScrollDirection direction = ScrollDirection.LeftToRight;
     void Start ()
     {
+        if(SpaceManager.instance != null)
+        {
+            direction = SpaceManager.instance.scrollDirection;
+        }
+
         if (!Camera.main.orthographic)
         {
             modificator = Mathf.Max(Screen.width, Screen.height);
@@ -68,7 +75,7 @@ public class ShootingStar : MonoBehaviour {
             //Once activated, the first action is to give the shooting star a new position
             Vector3 newPosition = Vector3.zero;
 
-            switch (SpaceManager.instance.scrollDirection)
+            switch (direction)
             {
                 case ScrollDirection.LeftToRight:
                     if (Camera.main.orthographic)

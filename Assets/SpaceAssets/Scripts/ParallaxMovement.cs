@@ -24,7 +24,8 @@ public class ParallaxMovement : MonoBehaviour {
     public float limitOffScreen = 1f;
 
     void Start () {
-        direction = SpaceManager.instance.scrollDirection;
+        if(SpaceManager.instance != null)
+            direction = SpaceManager.instance.scrollDirection;
         cameraTransform = Camera.main.transform;
         if (minSpeed > maxSpeed) Debug.LogError("The variable minSpeed cannot be greater than maxSpeed");
         //Set the speed vector based on the scroll direction
