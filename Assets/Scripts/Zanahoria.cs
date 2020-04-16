@@ -184,7 +184,7 @@ public class Zanahoria : MonoBehaviour
                 }
                 break;
             case EstadoZanahoria.enDisparo:
-                print(rigidbody.velocity.magnitude);
+                //print(rigidbody.velocity.magnitude);
                 if (transform.eulerAngles.z < 0f || transform.eulerAngles.z > 180f)
                 {
                     motorAudio.pitch = 0.3f;
@@ -227,7 +227,7 @@ public class Zanahoria : MonoBehaviour
     {
         if (fuerzaCarga > 500f)
         {
-            print(new Vector2(transform.right.x, transform.right.y) * fuerzaCarga);
+            //print(new Vector2(transform.right.x, transform.right.y) * fuerzaCarga);
             rigidbody.isKinematic = false;
             rigidbody.AddForce(new Vector2(transform.right.x, transform.right.y) * fuerzaCarga);
             estado = EstadoZanahoria.enDisparo;

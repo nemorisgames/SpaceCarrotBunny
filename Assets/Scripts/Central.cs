@@ -71,8 +71,8 @@ public class Central : MonoBehaviour {
 		if (s != null)
 			store = s.GetComponent<IAPNemoris> ();*/
 		Time.timeScale = 1f;
-		botonRevive.SetActive(PlayerPrefs.GetInt ("activateAdsAdBuddiz", 1) == 1);
-		botonReviveComprado.SetActive(PlayerPrefs.GetInt ("activateAdsAdBuddiz", 1) == 0);
+		//botonRevive.SetActive(PlayerPrefs.GetInt ("activateAdsAdBuddiz", 1) == 1);
+		//botonReviveComprado.SetActive(PlayerPrefs.GetInt ("activateAdsAdBuddiz", 1) == 0);
 		/*GameObject g = GameObject.Find ("GameCenterNemoris");
 		if (g != null) {
 			gameCenterNemoris = g.GetComponent<GameCenterNemoris>();
@@ -145,11 +145,10 @@ public class Central : MonoBehaviour {
 	}
 
 	public void revive(){
-		zanahoria.revivir ();
-		GameObject ads = GameObject.Find ("AppBudizz");
-		if (PlayerPrefs.GetInt ("activateAdsAdBuddiz", 0) == 1 && ads != null) {
+		//GameObject ads = GameObject.Find ("AppBudizz");
+		/*if (PlayerPrefs.GetInt ("activateAdsAdBuddiz", 0) == 1 && ads != null) {
 			ads.SendMessage("mostrarAdBuddiz");
-		}
+		}*/
 		foreach(TweenPosition t in juegoUI)
 			t.PlayForward();
 		foreach(TweenPosition t in resumenUI)
@@ -212,27 +211,32 @@ public class Central : MonoBehaviour {
 			resumenMedallaSprite.gameObject.SetActive (false);
 		}
 
-		if (planetas >= 3 && !revivido) {
-			botonRevive.SetActive (PlayerPrefs.GetInt ("activateAdsAdBuddiz", 1) == 1);
-			botonReviveComprado.SetActive (PlayerPrefs.GetInt ("activateAdsAdBuddiz", 1) == 0);
+		/*if (planetas >= 3 && !revivido) {
+			//botonRevive.SetActive (PlayerPrefs.GetInt ("activateAdsAdBuddiz", 1) == 1);
+			//botonReviveComprado.SetActive (PlayerPrefs.GetInt ("activateAdsAdBuddiz", 1) == 0);
 			if(PlayerPrefs.GetInt("instruccionesFinalMostrado", 0) == 0){
 				PlayerPrefs.SetInt("instruccionesFinalMostrado", 1);
 				instruccionesFinal.SetActive(true);
-				recordsFinal.SetActive(false);
+				//recordsFinal.SetActive(false);
 				replayFinal.SetActive(false);
 			}
 			else{
 				instruccionesFinal.SetActive(false);
-				recordsFinal.SetActive(true);
+				//recordsFinal.SetActive(true);
 				replayFinal.SetActive(true);
 			}
 		} else {
 			instruccionesFinal.SetActive(false);
 			botonRevive.SetActive (false);
 			botonReviveComprado.SetActive (false);
-			recordsFinal.SetActive(true);
+			//recordsFinal.SetActive(true);
 			replayFinal.SetActive(true);
-		}
+		}*/
+		instruccionesFinal.SetActive(false);
+		botonRevive.SetActive (false);
+		botonReviveComprado.SetActive (false);
+		//recordsFinal.SetActive(true);
+		replayFinal.SetActive(true);
 		foreach(TweenPosition t in juegoUI)
 			t.PlayReverse();
 		foreach(TweenPosition t in resumenUI)
