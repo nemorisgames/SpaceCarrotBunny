@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2015
+# Visual Studio 15
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceCarrotBunny.Plugins", "SpaceCarrotBunny.Plugins.csproj", "{3949147B-A404-A006-FCAD-B35E3C9D54BA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceCarrotBunny", "SpaceCarrotBunny.csproj", "{D5C412F5-FA8A-0845-926B-1246E19310A8}"
